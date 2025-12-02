@@ -336,6 +336,166 @@
             background-color: rgba(0, 0, 0, 0.3);
         }
 
+        /* Quiz Matematika Styles */
+        #mathQuiz {
+            text-align: center;
+        }
+
+        .quiz-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .quiz-status {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .question-container {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 25px;
+            text-align: left;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .question-text {
+            font-size: 1.4rem;
+            margin-bottom: 25px;
+            line-height: 1.6;
+            color: #f1f1f1;
+        }
+
+        .matrix {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            font-family: monospace;
+        }
+
+        .matrix-row {
+            display: flex;
+            justify-content: center;
+        }
+
+        .matrix-cell {
+            padding: 8px 12px;
+            margin: 2px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .options-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        @media (min-width: 768px) {
+            .options-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .option-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 18px 20px;
+            font-size: 1.1rem;
+            color: #f1f1f1;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+            display: flex;
+            align-items: center;
+        }
+
+        .option-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .option-btn.selected {
+            background: rgba(76, 201, 240, 0.2);
+            border-color: #4cc9f0;
+            box-shadow: 0 0 15px rgba(76, 201, 240, 0.3);
+        }
+
+        .option-btn.correct {
+            background: rgba(76, 175, 80, 0.3);
+            border-color: #4CAF50;
+        }
+
+        .option-btn.incorrect {
+            background: rgba(244, 67, 54, 0.3);
+            border-color: #F44336;
+        }
+
+        .option-label {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: #4361ee;
+            border-radius: 50%;
+            margin-right: 15px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .option-text {
+            flex-grow: 1;
+        }
+
+        .quiz-controls {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .quiz-controls button {
+            flex: 1;
+        }
+
+        .result-container {
+            display: none;
+            text-align: center;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            margin-top: 25px;
+        }
+
+        .score-display {
+            font-size: 5rem;
+            font-weight: bold;
+            color: #4cc9f0;
+            margin: 20px 0;
+            text-shadow: 0 0 20px rgba(76, 201, 240, 0.5);
+        }
+
+        .score-message {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            color: #a5b4fc;
+        }
+
         .controls {
             display: flex;
             flex-direction: column;
@@ -446,6 +606,15 @@
             .cell {
                 font-size: 2.8rem;
             }
+            
+            .question-text {
+                font-size: 1.2rem;
+            }
+            
+            .option-btn {
+                padding: 15px;
+                font-size: 1rem;
+            }
         }
 
         @media (max-width: 480px) {
@@ -464,6 +633,10 @@
             
             .cell {
                 font-size: 2.2rem;
+            }
+            
+            .quiz-controls {
+                flex-direction: column;
             }
         }
     </style>
@@ -501,6 +674,15 @@
                 </div>
                 <h2 class="game-title">Snake Game</h2>
                 <p class="game-desc">Kendalikan ular untuk memakan makanan. Hati-hati jangan sampai menabrak dinding atau tubuh ular sendiri!</p>
+                <button class="play-btn">Mainkan Game</button>
+            </div>
+            
+            <div class="game-card" data-game="mathQuiz">
+                <div class="game-icon">
+                    <i class="fas fa-calculator"></i>
+                </div>
+                <h2 class="game-title">Quiz Matematika</h2>
+                <p class="game-desc">Uji kemampuan matematika Anda! Soal meliputi matriks dasar dan aljabar kelas 9 SMP. Format pilihan ganda dengan 10 soal.</p>
                 <button class="play-btn">Mainkan Game</button>
             </div>
         </div>
@@ -624,6 +806,67 @@
             
             <div class="instructions">
                 <p><strong>Cara Bermain:</strong> Gunakan tombol panah atau tombol di layar untuk mengendalikan ular. Makan makanan merah untuk menambah skor dan panjang ular. Hindari menabrak dinding dan tubuh ular sendiri.</p>
+            </div>
+        </div>
+        
+        <!-- Math Quiz Game -->
+        <div class="game-container" id="mathQuiz">
+            <div class="game-header">
+                <button class="back-btn" id="backToMenu4"><i class="fas fa-arrow-left"></i> Kembali</button>
+                <h2 class="game-title-display">Quiz Matematika</h2>
+                <div></div>
+            </div>
+            
+            <div class="quiz-status">
+                <div class="status-item">
+                    <div class="status-label">Soal</div>
+                    <div class="status-value" id="questionNumber">1/10</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-label">Skor</div>
+                    <div class="status-value" id="quizScore">0</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-label">Benar</div>
+                    <div class="status-value" id="correctCount">0</div>
+                </div>
+            </div>
+            
+            <div class="quiz-container">
+                <div class="question-container">
+                    <div class="question-text" id="questionText">
+                        Memuat soal...
+                    </div>
+                    
+                    <div class="options-container" id="optionsContainer">
+                        <!-- Opsi jawaban akan di-generate oleh JavaScript -->
+                    </div>
+                    
+                    <div class="quiz-controls">
+                        <button class="play-btn" id="prevQuestion" style="display: none;">
+                            <i class="fas fa-arrow-left"></i> Soal Sebelumnya
+                        </button>
+                        <button class="play-btn" id="nextQuestion">
+                            Soal Berikutnya <i class="fas fa-arrow-right"></i>
+                        </button>
+                        <button class="play-btn" id="submitQuiz" style="display: none;">
+                            <i class="fas fa-check"></i> Selesai & Lihat Hasil
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="result-container" id="resultContainer">
+                    <h2 style="font-size: 2rem; margin-bottom: 20px; color: #4cc9f0;">Hasil Quiz</h2>
+                    <div class="score-display" id="finalScore">0/10</div>
+                    <div class="score-message" id="scoreMessage">Memuat hasil...</div>
+                    <button class="play-btn" id="restartQuiz">
+                        <i class="fas fa-redo"></i> Main Lagi
+                    </button>
+                </div>
+            </div>
+            
+            <div class="instructions">
+                <p><strong>Cara Bermain:</strong> Pilih jawaban yang benar dengan mengklik salah satu opsi. Setiap soal hanya memiliki satu jawaban benar. Anda dapat berpindah soal dengan tombol "Soal Berikutnya" dan "Soal Sebelumnya". Klik "Selesai & Lihat Hasil" setelah menjawab semua soal.</p>
             </div>
         </div>
 
@@ -1132,6 +1375,272 @@
             }
         };
         
+        // ==================== MATH QUIZ GAME ====================
+      // ==================== MATH QUIZ GAME ====================
+const mathQuiz = {
+    questions: [
+        {
+            question: "Hasil dari penjumlahan matriks berikut adalah:<br><div class='matrix'><div class='matrix-row'><div class='matrix-cell'>2</div><div class='matrix-cell'>3</div></div><div class='matrix-row'><div class='matrix-cell'>1</div><div class='matrix-cell'>4</div></div></div> + <div class='matrix'><div class='matrix-row'><div class='matrix-cell'>5</div><div class='matrix-cell'>2</div></div><div class='matrix-row'><div class='matrix-cell'>3</div><div class='matrix-cell'>1</div></div></div> = ?",
+            options: [
+                "<div class='matrix'><div class='matrix-row'><div class='matrix-cell'>7</div><div class='matrix-cell'>5</div></div><div class='matrix-row'><div class='matrix-cell'>4</div><div class='matrix-cell'>5</div></div></div>",
+                "<div class='matrix'><div class='matrix-row'><div class='matrix-cell'>7</div><div class='matrix-cell'>5</div></div><div class='matrix-row'><div class='matrix-cell'>4</div><div class='matrix-cell'>4</div></div></div>",
+                "<div class='matrix'><div class='matrix-row'><div class='matrix-cell'>7</div><div class='matrix-cell'>5</div></div><div class='matrix-row'><div class='matrix-cell'>4</div><div class='matrix-cell'>3</div></div></div>",
+                "<div class='matrix'><div class='matrix-row'><div class='matrix-cell'>7</div><div class='matrix-cell'>5</div></div><div class='matrix-row'><div class='matrix-cell'>4</div><div class='matrix-cell'>6</div></div></div>"
+            ],
+            correctAnswer: 0, // A
+            explanation: "Penjumlahan matriks dilakukan dengan menjumlahkan elemen-elemen yang seletak: 2+5=7, 3+2=5, 1+3=4, 4+1=5."
+        },
+        {
+            question: "Jika A = <div class='matrix'><div class='matrix-row'><div class='matrix-cell'>3</div><div class='matrix-cell'>2</div></div><div class='matrix-row'><div class='matrix-cell'>1</div><div class='matrix-cell'>4</div></div></div> dan B = <div class='matrix'><div class='matrix-row'><div class='matrix-cell'>1</div><div class='matrix-cell'>0</div></div><div class='matrix-row'><div class='matrix-cell'>2</div><div class='matrix-cell'>3</div></div></div>, maka A - B = ?",
+            options: [
+                "<div class='matrix'><div class='matrix-row'><div class='matrix-cell'>2</div><div class='matrix-cell'>2</div></div><div class='matrix-row'><div class='matrix-cell'>-1</div><div class='matrix-cell'>1</div></div></div>",
+                "<div class='matrix'><div class='matrix-row'><div class='matrix-cell'>2</div><div class='matrix-cell'>2</div></div><div class='matrix-row'><div class='matrix-cell'>3</div><div class='matrix-cell'>1</div></div></div>",
+                "<div class='matrix'><div class='matrix-row'><div class='matrix-cell'>2</div><div class='matrix-cell'>2</div></div><div class='matrix-row'><div class='matrix-cell'>-1</div><div class='matrix-cell'>7</div></div></div>",
+                "<div class='matrix'><div class='matrix-row'><div class='matrix-cell'>4</div><div class='matrix-cell'>2</div></div><div class='matrix-row'><div class='matrix-cell'>3</div><div class='matrix-cell'>7</div></div></div>"
+            ],
+            correctAnswer: 1, // B (diubah dari A ke B)
+            explanation: "Pengurangan matriks: 3-1=2, 2-0=2, 1-2=-1, 4-3=1."
+        },
+        {
+            question: "Jika 2 × <div class='matrix'><div class='matrix-row'><div class='matrix-cell'>3</div><div class='matrix-cell'>-1</div></div><div class='matrix-row'><div class='matrix-cell'>2</div><div class='matrix-cell'>4</div></div></div> = ?",
+            options: [
+                "<div class='matrix'><div class='matrix-row'><div class='matrix-cell'>6</div><div class='matrix-cell'>-2</div></div><div class='matrix-row'><div class='matrix-cell'>4</div><div class='matrix-cell'>8</div></div></div>",
+                "<div class='matrix'><div class='matrix-row'><div class='matrix-cell'>5</div><div class='matrix-cell'>-2</div></div><div class='matrix-row'><div class='matrix-cell'>4</div><div class='matrix-cell'>8</div></div></div>",
+                "<div class='matrix'><div class='matrix-row'><div class='matrix-cell'>6</div><div class='matrix-cell'>-2</div></div><div class='matrix-row'><div class='matrix-cell'>4</div><div class='matrix-cell'>6</div></div></div>",
+                "<div class='matrix'><div class='matrix-row'><div class='matrix-cell'>6</div><div class='matrix-cell'>-1</div></div><div class='matrix-row'><div class='matrix-cell'>2</div><div class='matrix-cell'>8</div></div></div>"
+            ],
+            correctAnswer: 0, // A
+            explanation: "Perkalian skalar: setiap elemen dikalikan dengan 2: 2×3=6, 2×(-1)=-2, 2×2=4, 2×4=8."
+        },
+        {
+            question: "Nilai x dari persamaan 3x + 7 = 22 adalah...",
+            options: ["5", "6", "7", "8"],
+            correctAnswer: 0, // A
+            explanation: "3x + 7 = 22 → 3x = 22 - 7 → 3x = 15 → x = 15/3 = 5."
+        },
+        {
+            question: "Hasil dari (2x - 3)(x + 4) adalah...",
+            options: [
+                "2x² + 5x - 12", 
+                "2x² + 5x + 12", 
+                "2x² - 5x - 12", 
+                "2x² - 5x + 12"
+            ],
+            correctAnswer: 2, // C (diubah dari A ke C)
+            explanation: "(2x - 3)(x + 4) = 2x² + 8x - 3x - 12 = 2x² + 5x - 12."
+        },
+        {
+            question: "Jika a = 3 dan b = -2, maka nilai dari 2a² - 3b adalah...",
+            options: ["24", "20", "18", "12"],
+            correctAnswer: 0, // A
+            explanation: "2a² - 3b = 2(3)² - 3(-2) = 2×9 + 6 = 18 + 6 = 24."
+        },
+        {
+            question: "Penyelesaian dari sistem persamaan 2x + y = 7 dan x - y = -1 adalah...",
+            options: [
+                "x = 2, y = 3", 
+                "x = 3, y = 1", 
+                "x = 1, y = 5", 
+                "x = 4, y = -1"
+            ],
+            correctAnswer: 3, // D (diubah dari A ke D)
+            explanation: "Dari x - y = -1, maka x = y - 1. Substitusi ke 2(y-1) + y = 7 → 2y - 2 + y = 7 → 3y = 9 → y = 3, x = 2."
+        },
+        {
+            question: "Faktor dari x² - 5x + 6 adalah...",
+            options: [
+                "(x - 2)(x - 3)", 
+                "(x + 2)(x + 3)", 
+                "(x - 1)(x - 6)", 
+                "(x + 1)(x - 6)"
+            ],
+            correctAnswer: 0, // A
+            explanation: "x² - 5x + 6 = (x - 2)(x - 3) karena -2 × -3 = 6 dan -2 + -3 = -5."
+        },
+        {
+            question: "Hasil dari 4⁻² adalah...",
+            options: ["1/16", "1/8", "-8", "-16"],
+            correctAnswer: 1, // B (diubah dari A ke B)
+            explanation: "4⁻² = 1/4² = 1/16."
+        },
+        {
+            question: "Luas persegi panjang dengan panjang (2x + 3) cm dan lebar (x - 1) cm adalah...",
+            options: [
+                "(2x² + x - 3) cm²", 
+                "(2x² - x - 3) cm²", 
+                "(2x² + x + 3) cm²", 
+                "(2x² - x + 3) cm²"
+            ],
+            correctAnswer: 0, // A
+            explanation: "Luas = panjang × lebar = (2x + 3)(x - 1) = 2x² - 2x + 3x - 3 = 2x² + x - 3."
+        }
+    ],
+    // ... (kode selanjutnya tetap sama)
+            init: function() {
+                this.currentQuestionIndex = 0;
+                this.userAnswers = Array(this.questions.length).fill(null);
+                this.score = 0;
+                this.quizCompleted = false;
+                
+                // Show question container, hide result container
+                document.getElementById('resultContainer').style.display = 'none';
+                document.querySelector('.question-container').style.display = 'block';
+                
+                this.displayQuestion();
+                this.updateStatus();
+                this.updateNavigationButtons();
+            },
+            
+            displayQuestion: function() {
+                const question = this.questions[this.currentQuestionIndex];
+                document.getElementById('questionText').innerHTML = question.question;
+                
+                const optionsContainer = document.getElementById('optionsContainer');
+                optionsContainer.innerHTML = '';
+                
+                // Create option buttons
+                question.options.forEach((option, index) => {
+                    const optionButton = document.createElement('button');
+                    optionButton.classList.add('option-btn');
+                    
+                    // Check if user has already answered this question
+                    if (this.userAnswers[this.currentQuestionIndex] === index) {
+                        optionButton.classList.add('selected');
+                        
+                        // Show correct/incorrect after answer
+                        if (this.quizCompleted) {
+                            if (index === question.correctAnswer) {
+                                optionButton.classList.add('correct');
+                            } else {
+                                optionButton.classList.add('incorrect');
+                            }
+                        }
+                    }
+                    
+                    optionButton.innerHTML = `
+                        <span class="option-label">${String.fromCharCode(65 + index)}</span>
+                        <span class="option-text">${option}</span>
+                    `;
+                    
+                    optionButton.addEventListener('click', () => this.selectAnswer(index));
+                    optionsContainer.appendChild(optionButton);
+                });
+                
+                // Update question number
+                document.getElementById('questionNumber').textContent = `${this.currentQuestionIndex + 1}/${this.questions.length}`;
+            },
+            
+            selectAnswer: function(answerIndex) {
+                // Only allow answering if quiz is not completed
+                if (this.quizCompleted) return;
+                
+                // Store user's answer
+                this.userAnswers[this.currentQuestionIndex] = answerIndex;
+                
+                // Update UI to show selected answer
+                this.displayQuestion();
+                
+                // Update navigation buttons
+                this.updateNavigationButtons();
+            },
+            
+            nextQuestion: function() {
+                if (this.currentQuestionIndex < this.questions.length - 1) {
+                    this.currentQuestionIndex++;
+                    this.displayQuestion();
+                    this.updateNavigationButtons();
+                }
+            },
+            
+            prevQuestion: function() {
+                if (this.currentQuestionIndex > 0) {
+                    this.currentQuestionIndex--;
+                    this.displayQuestion();
+                    this.updateNavigationButtons();
+                }
+            },
+            
+            updateNavigationButtons: function() {
+                const prevBtn = document.getElementById('prevQuestion');
+                const nextBtn = document.getElementById('nextQuestion');
+                const submitBtn = document.getElementById('submitQuiz');
+                
+                // Show/hide previous button
+                if (this.currentQuestionIndex > 0) {
+                    prevBtn.style.display = 'block';
+                } else {
+                    prevBtn.style.display = 'none';
+                }
+                
+                // Show next or submit button
+                if (this.currentQuestionIndex < this.questions.length - 1) {
+                    nextBtn.style.display = 'block';
+                    submitBtn.style.display = 'none';
+                } else {
+                    nextBtn.style.display = 'none';
+                    submitBtn.style.display = 'block';
+                }
+            },
+            
+            calculateScore: function() {
+                this.score = 0;
+                this.userAnswers.forEach((answer, index) => {
+                    if (answer === this.questions[index].correctAnswer) {
+                        this.score++;
+                    }
+                });
+                
+                return this.score;
+            },
+            
+            showResults: function() {
+                this.quizCompleted = true;
+                this.calculateScore();
+                
+                // Hide question container, show result container
+                document.querySelector('.question-container').style.display = 'none';
+                document.getElementById('resultContainer').style.display = 'block';
+                
+                // Update final score display
+                document.getElementById('finalScore').textContent = `${this.score}/${this.questions.length}`;
+                
+                // Show score message
+                const scoreMessage = document.getElementById('scoreMessage');
+                const percentage = (this.score / this.questions.length) * 100;
+                
+                if (percentage >= 90) {
+                    scoreMessage.textContent = "Luar biasa! Anda sangat menguasai matematika!";
+                } else if (percentage >= 70) {
+                    scoreMessage.textContent = "Bagus! Pengetahuan matematika Anda cukup baik.";
+                } else if (percentage >= 50) {
+                    scoreMessage.textContent = "Cukup baik. Tingkatkan lagi pemahaman Anda!";
+                } else {
+                    scoreMessage.textContent = "Anda perlu belajar lebih giat lagi. Jangan menyerah!";
+                }
+                
+                // Update status display
+                document.getElementById('correctCount').textContent = this.score;
+                document.getElementById('quizScore').textContent = this.score * 10;
+            },
+            
+            updateStatus: function() {
+                // Calculate current score based on answered questions
+                let currentScore = 0;
+                for (let i = 0; i <= this.currentQuestionIndex; i++) {
+                    if (this.userAnswers[i] !== null && this.userAnswers[i] === this.questions[i].correctAnswer) {
+                        currentScore++;
+                    }
+                }
+                
+                document.getElementById('correctCount').textContent = currentScore;
+                document.getElementById('quizScore').textContent = currentScore * 10;
+            },
+            
+            restartQuiz: function() {
+                this.init();
+            }
+        };
+        
         // ==================== GAME SELECTION AND NAVIGATION ====================
         document.addEventListener('DOMContentLoaded', function() {
             // Game selection buttons
@@ -1154,6 +1663,8 @@
                         memoryGame.init();
                     } else if (gameId === 'snakeGame') {
                         snakeGame.init();
+                    } else if (gameId === 'mathQuiz') {
+                        mathQuiz.init();
                     }
                 });
             });
@@ -1162,6 +1673,7 @@
             document.getElementById('backToMenu1').addEventListener('click', backToMenu);
             document.getElementById('backToMenu2').addEventListener('click', backToMenu);
             document.getElementById('backToMenu3').addEventListener('click', backToMenu);
+            document.getElementById('backToMenu4').addEventListener('click', backToMenu);
             
             // Reset buttons
             document.getElementById('resetTicTacToe').addEventListener('click', function() {
@@ -1174,6 +1686,23 @@
             
             document.getElementById('resetSnake').addEventListener('click', function() {
                 snakeGame.resetGame();
+            });
+            
+            // Math Quiz buttons
+            document.getElementById('nextQuestion').addEventListener('click', function() {
+                mathQuiz.nextQuestion();
+            });
+            
+            document.getElementById('prevQuestion').addEventListener('click', function() {
+                mathQuiz.prevQuestion();
+            });
+            
+            document.getElementById('submitQuiz').addEventListener('click', function() {
+                mathQuiz.showResults();
+            });
+            
+            document.getElementById('restartQuiz').addEventListener('click', function() {
+                mathQuiz.restartQuiz();
             });
             
             // Snake control buttons
