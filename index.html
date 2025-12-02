@@ -156,7 +156,7 @@
             color: #4cc9f0;
         }
 
-        /* Tic Tac Toe Styles */
+        /* Tic Tac Toe Styles - PERBAIKAN */
         #ticTacToe {
             text-align: center;
         }
@@ -164,14 +164,63 @@
         .board {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            grid-gap: 10px;
+            grid-gap: 12px;
             max-width: 400px;
             margin: 0 auto 25px;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 15px;
+            border: 2px solid #4cc9f0;
+            box-shadow: 0 0 20px rgba(76, 201, 240, 0.3);
+            position: relative;
+        }
+
+        /* Garis grid yang lebih terang */
+        .board::before {
+            content: '';
+            position: absolute;
+            top: 33.33%;
+            left: 5%;
+            width: 90%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, #4cc9f0, transparent);
+            border-radius: 2px;
+        }
+        
+        .board::after {
+            content: '';
+            position: absolute;
+            top: 66.66%;
+            left: 5%;
+            width: 90%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, #4cc9f0, transparent);
+            border-radius: 2px;
+        }
+        
+        .board .vertical-line-1 {
+            position: absolute;
+            top: 5%;
+            left: 33.33%;
+            width: 4px;
+            height: 90%;
+            background: linear-gradient(180deg, transparent, #4cc9f0, transparent);
+            border-radius: 2px;
+        }
+        
+        .board .vertical-line-2 {
+            position: absolute;
+            top: 5%;
+            left: 66.66%;
+            width: 4px;
+            height: 90%;
+            background: linear-gradient(180deg, transparent, #4cc9f0, transparent);
+            border-radius: 2px;
         }
 
         .cell {
             aspect-ratio: 1;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.9); /* Lebih terang */
             border-radius: 10px;
             display: flex;
             align-items: center;
@@ -180,18 +229,36 @@
             font-weight: bold;
             cursor: pointer;
             transition: all 0.2s;
+            color: #1a1a2e;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.5);
         }
 
         .cell:hover {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 1);
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
         }
 
         .cell.x {
-            color: #4cc9f0;
+            color: #4361ee;
+            text-shadow: 0 2px 4px rgba(67, 97, 238, 0.3);
         }
 
         .cell.o {
             color: #f72585;
+            text-shadow: 0 2px 4px rgba(247, 37, 133, 0.3);
+        }
+
+        .cell.winning {
+            animation: pulse 1s infinite;
+            background: rgba(76, 201, 240, 0.3);
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(76, 201, 240, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(76, 201, 240, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(76, 201, 240, 0); }
         }
 
         /* Memory Game Styles */
@@ -247,7 +314,12 @@
             transform: rotateY(180deg);
         }
 
-        /* Snake Game Styles */
+        .memory-card.matched {
+            transform: rotateY(180deg);
+            box-shadow: 0 0 15px #4cc9f0;
+        }
+
+        /* Snake Game Styles - PERBAIKAN IKON */
         #snakeGame {
             text-align: center;
         }
@@ -370,6 +442,10 @@
                 width: 300px;
                 height: 300px;
             }
+            
+            .cell {
+                font-size: 2.8rem;
+            }
         }
 
         @media (max-width: 480px) {
@@ -384,6 +460,10 @@
             
             .game-title-display {
                 font-size: 1.6rem;
+            }
+            
+            .cell {
+                font-size: 2.2rem;
             }
         }
     </style>
@@ -416,7 +496,8 @@
 
             <div class="game-card" data-game="snakeGame">
                 <div class="game-icon">
-                    <i class="fas fa-snake"></i>
+                    <!-- Perbaikan: Ikon snake yang lebih tepat -->
+                    <i class="fas fa-strikethrough"></i>
                 </div>
                 <h2 class="game-title">Snake Game</h2>
                 <p class="game-desc">Kendalikan ular untuk memakan makanan. Hati-hati jangan sampai menabrak dinding atau tubuh ular sendiri!</p>
@@ -452,6 +533,9 @@
             </div>
             
             <div class="board" id="board">
+                <!-- Garis grid -->
+                <div class="vertical-line-1"></div>
+                <div class="vertical-line-2"></div>
                 <!-- Cells will be generated by JavaScript -->
             </div>
             
@@ -576,6 +660,9 @@
                 const board = document.getElementById('board');
                 board.innerHTML = '';
                 
+                // Add grid lines
+                board.innerHTML = '<div class="vertical-line-1"></div><div class="vertical-line-2"></div>';
+                
                 for (let i = 0; i < 9; i++) {
                     const cell = document.createElement('div');
                     cell.classList.add('cell');
@@ -599,12 +686,14 @@
                 cell.classList.add(this.currentPlayer.toLowerCase());
                 
                 // Check for win or draw
-                if (this.checkWin()) {
+                const winResult = this.checkWin();
+                if (winResult) {
                     this.gameActive = false;
+                    this.highlightWinningCells(winResult);
                     this.updateScore();
                     setTimeout(() => {
                         alert(`Pemain ${this.currentPlayer} menang!`);
-                    }, 100);
+                    }, 300);
                 } else if (this.checkDraw()) {
                     this.gameActive = false;
                     this.scoreDraw++;
@@ -627,10 +716,17 @@
                         this.gameState[a] === this.gameState[b] &&
                         this.gameState[a] === this.gameState[c]
                     ) {
-                        return true;
+                        return condition; // Return the winning combination
                     }
                 }
                 return false;
+            },
+            
+            highlightWinningCells: function(winningCombination) {
+                for (let index of winningCombination) {
+                    const cell = document.querySelector(`.cell[data-index="${index}"]`);
+                    cell.classList.add('winning');
+                }
             },
             
             checkDraw: function() {
@@ -638,6 +734,13 @@
             },
             
             updateScore: function() {
+                if (this.checkWin()) {
+                    if (this.currentPlayer === 'X') {
+                        this.scoreX++;
+                    } else {
+                        this.scoreO++;
+                    }
+                }
                 document.getElementById('scoreX').textContent = this.scoreX;
                 document.getElementById('scoreO').textContent = this.scoreO;
                 document.getElementById('scoreDraw').textContent = this.scoreDraw;
@@ -648,6 +751,11 @@
             },
             
             resetGame: function() {
+                // Remove winning animation
+                document.querySelectorAll('.cell.winning').forEach(cell => {
+                    cell.classList.remove('winning');
+                });
+                
                 this.init();
             },
             
@@ -725,13 +833,13 @@
                 const card = document.querySelector(`.memory-card[data-index="${cardIndex}"]`);
                 
                 // If card is already flipped or matched, ignore
-                if (card.classList.contains('flipped') || this.flippedCards.length >= 2) {
+                if (card.classList.contains('flipped') || card.classList.contains('matched') || this.flippedCards.length >= 2) {
                     return;
                 }
                 
                 // Flip the card
                 card.classList.add('flipped');
-                this.flippedCards.push({index: cardIndex, emoji: this.cards[cardIndex]});
+                this.flippedCards.push({index: cardIndex, emoji: this.cards[cardIndex], element: card});
                 
                 // If two cards are flipped, check for match
                 if (this.flippedCards.length === 2) {
@@ -743,7 +851,8 @@
                     if (card1.emoji === card2.emoji) {
                         // Match found
                         this.matchedPairs++;
-                        this.updateStatus();
+                        card1.element.classList.add('matched');
+                        card2.element.classList.add('matched');
                         
                         this.flippedCards = [];
                         
@@ -758,8 +867,8 @@
                     } else {
                         // No match, flip back after delay
                         setTimeout(() => {
-                            document.querySelector(`.memory-card[data-index="${card1.index}"]`).classList.remove('flipped');
-                            document.querySelector(`.memory-card[data-index="${card2.index}"]`).classList.remove('flipped');
+                            card1.element.classList.remove('flipped');
+                            card2.element.classList.remove('flipped');
                             this.flippedCards = [];
                         }, 1000);
                     }
@@ -846,27 +955,38 @@
                     // Snake head
                     if (index === 0) {
                         this.ctx.fillStyle = '#4cc9f0';
+                        this.ctx.fillRect(
+                            segment.x * this.gridSize,
+                            segment.y * this.gridSize,
+                            this.gridSize - 1,
+                            this.gridSize - 1
+                        );
+                        
+                        // Draw eyes on head
+                        this.ctx.fillStyle = '#1a1a2e';
+                        // Left eye
+                        this.ctx.fillRect(
+                            segment.x * this.gridSize + 4,
+                            segment.y * this.gridSize + 4,
+                            4, 4
+                        );
+                        // Right eye
+                        this.ctx.fillRect(
+                            segment.x * this.gridSize + 12,
+                            segment.y * this.gridSize + 4,
+                            4, 4
+                        );
                     } else {
-                        this.ctx.fillStyle = '#4361ee';
+                        // Snake body with gradient color
+                        const colorValue = 200 - (index % 5) * 20;
+                        this.ctx.fillStyle = `rgb(67, 97, ${colorValue})`;
+                        this.ctx.fillRect(
+                            segment.x * this.gridSize,
+                            segment.y * this.gridSize,
+                            this.gridSize - 1,
+                            this.gridSize - 1
+                        );
                     }
-                    
-                    this.ctx.fillRect(
-                        segment.x * this.gridSize,
-                        segment.y * this.gridSize,
-                        this.gridSize - 1,
-                        this.gridSize - 1
-                    );
-                    
-                    // Add rounded corners
-                    this.ctx.beginPath();
-                    this.ctx.arc(
-                        segment.x * this.gridSize + this.gridSize/2,
-                        segment.y * this.gridSize + this.gridSize/2,
-                        this.gridSize/2 - 1,
-                        0,
-                        Math.PI * 2
-                    );
-                    this.ctx.fill();
                 });
                 
                 // Draw food
@@ -876,6 +996,18 @@
                     this.food.x * this.gridSize + this.gridSize/2,
                     this.food.y * this.gridSize + this.gridSize/2,
                     this.gridSize/2 - 1,
+                    0,
+                    Math.PI * 2
+                );
+                this.ctx.fill();
+                
+                // Draw food shine effect
+                this.ctx.fillStyle = '#ff9ecc';
+                this.ctx.beginPath();
+                this.ctx.arc(
+                    this.food.x * this.gridSize + this.gridSize/2 - 3,
+                    this.food.y * this.gridSize + this.gridSize/2 - 3,
+                    3,
                     0,
                     Math.PI * 2
                 );
